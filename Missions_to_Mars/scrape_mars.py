@@ -52,3 +52,27 @@ def marsFacts():
     mars_facts_df = mars_facts_df.set_index(0)
     mars_facts_html = mars_facts_df.to_html(header=False, index=False)
     return mars_facts_html
+
+#Define marsHem
+def marsHem():
+    hemisphere_url = "https://marshemispheres.com/"
+    browser.visit(hemisphere_url)
+    hemisphere_html = browser.html
+    hemisphere_soup = bs(hemisphere_html,"html.parser")
+    mars_hemispheres = []
+
+    products = hemisphere_soup.find("div", class_="result-list")
+    hemispheres = products.find_all("div", class_="item")
+
+    for hemisphere in hemispheres:
+        title = hemisphere.find("h3").text
+        title = title.replace("Enhanced", "")
+        end_link = hemisphere.find("a")["href"]
+        image_link = "https://marshemispheres.com/" + end_link
+        browser.visit(image_link)
+        html = browser.html
+        soup = bs(html, "html.parser")
+        downloads = soup.find("div", class_="downloads")
+        image_url = downloads.find("a")["href"]
+        mars_hemispheres.append({"title": title, "image_url": image_url})
+    return mars_hemispheres
