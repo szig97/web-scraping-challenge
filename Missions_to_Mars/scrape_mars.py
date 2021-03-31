@@ -5,24 +5,24 @@ import pandas as pd
 import os
 import time
 
-#Site Naviagation
-executable_path = {'executable_path': ChromeDriverManager().install()}
-browser = Browser('chrome', **executable_path, headless=False)
-
 # Defining scrape and dictionary
 def scrape():
+    #Site Naviagation
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
+
     final_data = {}
-    output = marsNews()
+    output = marsNews(browser)
     final_data["mars_news"] = output[0]
     final_data["mars_paragraph"] = output[1]
-    final_data["mars_image"] = marsImage()
-    final_data["mars_facts"] = marsFacts()
-    final_data["mars_hemisphere"] = marsHem()
+    final_data["mars_image"] = marsImage(browser)
+    final_data["mars_facts"] = marsFacts(browser)
+    final_data["mars_hemisphere"] = marsHem(browser)
 
     return final_data
 
 #Define marsNews
-def marsNews():
+def marsNews(browser):
     news_url = "https://redplanetscience.com/"
     browser.visit(news_url)
     news_html = browser.html
@@ -33,7 +33,7 @@ def marsNews():
     return output
 
 #Define marsImage
-def marsImage():
+def marsImage(browser):
     image_url = "https://spaceimages-mars.com/"
     browser.visit(image_url)
     image_html = browser.html
@@ -43,7 +43,7 @@ def marsImage():
     return featured_image_url
 
 #Define marsFacts
-def marsFacts():
+def marsFacts(browser):
     facts_url = "https://galaxyfacts-mars.com/"
     browser.visit(facts_url)
     mars_facts =pd.read_html(facts_url)
@@ -54,7 +54,7 @@ def marsFacts():
     return mars_facts_html
 
 #Define marsHem
-def marsHem():
+def marsHem(browser):
     hemisphere_url = "https://marshemispheres.com/"
     browser.visit(hemisphere_url)
     hemisphere_html = browser.html
@@ -76,3 +76,6 @@ def marsHem():
         image_url = downloads.find("a")["href"]
         mars_hemispheres.append({"title": title, "image_url": image_url})
     return mars_hemispheres
+
+if __name__=="__main__":
+    print(scrape())
