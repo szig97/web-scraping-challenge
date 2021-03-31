@@ -28,3 +28,13 @@ def marsNews():
     news_paragraph = soup.find("div", class_="article_teaser_body").text
     output = [news_title, news_paragraph]
     return output
+
+#Define marsImage
+def marsImage():
+    image_url = "https://spaceimages-mars.com/"
+    browser.visit(image_url)
+    image_html = browser.html
+    image_soup = bs(image_html,"html.parser")
+    image = image_soup.find("img", class_="headerimage fade-in")["src"]
+    featured_image_url = "https://spaceimages-mars.com/" + image
+    return featured_image_url
