@@ -49,7 +49,6 @@ def marsFacts(browser):
     mars_facts =pd.read_html(facts_url)
     mars_facts_df = pd.DataFrame(mars_facts[0])
     mars_facts_df = mars_facts_df.drop(columns = [2])
-    mars_facts_df = mars_facts_df.set_index(0)
     mars_facts_html = mars_facts_df.to_html(header=False, index=False)
     return mars_facts_html
 
@@ -59,7 +58,7 @@ def marsHem(browser):
     browser.visit(hemisphere_url)
     hemisphere_html = browser.html
     hemisphere_soup = bs(hemisphere_html,"html.parser")
-    mars_hemispheres = []
+    mars_hemisphere = []
 
     products = hemisphere_soup.find("div", class_="result-list")
     hemispheres = products.find_all("div", class_="item")
@@ -73,9 +72,9 @@ def marsHem(browser):
         html = browser.html
         soup = bs(html, "html.parser")
         downloads = soup.find("div", class_="downloads")
-        image_url = downloads.find("a")["href"]
-        mars_hemispheres.append({"title": title, "image_url": image_url})
-    return mars_hemispheres
+        image_url ="https://marshemispheres.com/" + downloads.find("a")["href"]
+        mars_hemisphere.append({"title": title, "image_url": image_url})
+    return mars_hemisphere
 
 if __name__=="__main__":
     print(scrape())

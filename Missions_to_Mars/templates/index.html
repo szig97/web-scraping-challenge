@@ -29,12 +29,11 @@
             <div class = "col-md-8">
                 <h3>Featured Mars Image</h3>
                 <img src = "{{mars.mars_image}}" alt="Mars Image">
+            </div>           
+            <div class= "col-md-4">
+                <h4>Mars Facts</h4>
+                <p>{{mars.mars_facts | safe}}</p>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <h4>Mars Facts</h4>
-            <p>{{mars.mars_facts | safe}}</p>
         </div>
 
         <div class="row" id="mars-hemispheres">
